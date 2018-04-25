@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "407187709602",
+    "firebase_url": "https://androidcoursework-84a4f.firebaseio.com",
+    "project_id": "androidcoursework-84a4f",
+    "storage_bucket": "androidcoursework-84a4f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407187709602:android:14ae7ed8e2b33e8a",
+        "android_client_info": {
+          "package_name": "com.gmail.otb.fhd.mobileappcoursework"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "407187709602-hn5h46pramq8pafgchselv2s9u1e60v2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmail.otb.fhd.mobileappcoursework",
+            "certificate_hash": "f70a28c2c25f87e8d5854fbfeb88d0e6f8fd1c2b"
+          }
+        },
+        {
+          "client_id": "407187709602-30ovtfudf4n2bi8ehau7tf3bm6ivmtko.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBegKB8kct51uxRsUiVTZe4rbuoqIZ0sDI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "407187709602-30ovtfudf4n2bi8ehau7tf3bm6ivmtko.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

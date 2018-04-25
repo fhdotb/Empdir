@@ -1,0 +1,120 @@
+{
+  "offices":
+  { "0":
+    { "OfficeID": "1",
+          "DepartmentName":"Software Development",
+          "OfficePhone":"",
+          "LocationName":"",
+          "employees": {
+            "1": {
+              "employeeID": "1",
+              "FirstName": "Fahad",
+              "LastName" : "Alotaibi",
+              "MobileNamber":"07445051917",
+              "Email":"faaa1y17@soton.ac.uk",
+              "Photo":"",
+              "Password":"12345678",
+              "Role":
+              {
+                  "JobTitle": "Developer",
+                  "Supervisor": "0"
+              }
+            },
+            "2": {
+              "employeeID": "2",
+              "FirstName": "Ömer",
+              "LastName" : "Kuroğlu ",
+              "MobileNamber":"07454738453",
+              "Email":"faaa1y17@soton.ac.uk",
+              "Photo":"",
+              "Password":"12345678",
+              "Role":
+              {
+                  "JobTitle": "Tester",
+                  "Supervisor": "0"
+              }
+            },
+            "3": {
+              "employeeID": "3",
+              "FirstName": "Abdolbaghi",
+              "LastName" : "Rezazadeh ",
+              "MobileNamber":"02380593233",
+              "Email":"ra3@ecs.soton.ac.uk",
+              "Photo":"",
+              "Password":"12345678",
+              "Role":
+              {
+                  "JobTitle": "Manager",
+                  "Supervisor": "1"
+              }
+            },
+            "4": {
+              "employeeID": "4",
+              "FirstName": "Abdoulrhman",
+              "LastName" : "Saud ",
+              "MobileNamber":"02380565432",
+              "Email":"saud@gmail.com",
+              "Photo":"",
+              "Password":"12345678",
+              "Role":
+              {
+                  "JobTitle": "Manager",
+                  "Supervisor": "1"
+              }
+            }
+
+          }
+        },
+        "1":
+          { "OfficeID": "1",
+                "DepartmentName":"Software Development",
+                "OfficePhone":"",
+                "LocationName":"",
+                "employees": {
+                  "1": {
+                    "employeeID": "1",
+                    "FirstName": "Fahad",
+                    "LastName" : "Alotaibi",
+                    "MobileNamber":"07445051917",
+                    "Email":"faaa1y17@soton.ac.uk",
+                    "Photo":"",
+                    "Password":"12345678",
+                    "Role":
+                    {
+                        "JobTitle": "Developer",
+                        "Supervisor": "0"
+                    }
+                  },
+                  "2": {
+                    "employeeID": "2",
+                    "FirstName": "Ömer",
+                    "LastName" : "Kuroğlu ",
+                    "MobileNamber":"07454738453",
+                    "Email":"faaa1y17@soton.ac.uk",
+                    "Photo":"",
+                    "Password":"12345678",
+                    "Role":
+                    {
+                        "JobTitle": "Tester",
+                        "Supervisor": "0"
+                    }
+                  },
+                  "3": {
+                    "employeeID": "3",
+                    "FirstName": "Abdolbaghi",
+                    "LastName" : "Rezazadeh ",
+                    "MobileNamber":"02380593233",
+                    "Email":"ra3@ecs.soton.ac.uk",
+                    "Photo":"",
+                    "Password":"12345678",
+                    "Role":
+                    {
+                        "JobTitle": "Manager",
+                        "Supervisor": "1"
+                    }
+                  }
+
+                }
+              }
+  }
+}
