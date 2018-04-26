@@ -18,6 +18,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -74,6 +75,7 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
     private ActionMode actionMode;
     private ActionModeCallback actionModeCallback;
 
+    private Context context = this.getActivity();
 
 
 
@@ -188,19 +190,14 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
-
         swipeRefreshLayout.setProgressViewOffset(false, 0,top_to_padding);
 
 
-
-        mAdapter = new ProfileAdapter(this.getActivity(), listoffices, this);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this.getActivity(), LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(mAdapter);
-
         actionModeCallback = new ActionModeCallback();
 
         // show loader and fetch messages
@@ -364,12 +361,16 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
                 offices =  response.body().getOffices();
                 listoffices = Arrays.asList(offices);
+                for ( EmployeeOffice element : listoffices)
+                {
+                    Log.d(element.getOfficeID(),element.getEmployees().toString());
+                }
 
                 System.out.println("response.body()");
                 System.out.println(response.body());
 
-                // add all the messages
 
+                buildAdapter();
 
 
 
@@ -399,6 +400,16 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
 
         });
+    }
+
+    private void buildAdapter()
+    {
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
+        mAdapter = new ProfileAdapter(getActivity(), listoffices, this);
+        recyclerView.setAdapter(mAdapter);
+
     }
 
 
