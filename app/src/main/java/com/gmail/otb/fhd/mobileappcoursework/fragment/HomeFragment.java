@@ -32,14 +32,18 @@ import com.gmail.otb.fhd.mobileappcoursework.NetworkLayer.API;
 import com.gmail.otb.fhd.mobileappcoursework.NetworkLayer.ApiClient;
 import com.gmail.otb.fhd.mobileappcoursework.R;
 import com.gmail.otb.fhd.mobileappcoursework.adapters.ProfileAdapter;
+import com.gmail.otb.fhd.mobileappcoursework.model.Employee;
 import com.gmail.otb.fhd.mobileappcoursework.model.EmployeeOffice;
 import com.gmail.otb.fhd.mobileappcoursework.model.JsonResponse;
 import com.gmail.otb.fhd.mobileappcoursework.utills.DividerItemDecoration;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.tapadoo.alerter.Alerter;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -76,6 +80,9 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
     private ActionModeCallback actionModeCallback;
 
     private Context context = this.getActivity();
+    private List<Employee> employeesInOneOffice =new ArrayList<Employee>();
+    private List<Employee> EmployeesList = new ArrayList<Employee>();
+    private Map<String, List<Employee> > employees = new HashMap<String, List<Employee> >();
 
 
 
@@ -361,15 +368,6 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
                 offices =  response.body().getOffices();
                 listoffices = Arrays.asList(offices);
-                for ( EmployeeOffice element : listoffices)
-                {
-                    Log.d(element.getOfficeID(),element.getEmployees().toString());
-                }
-
-                System.out.println("response.body()");
-                System.out.println(response.body());
-
-
                 buildAdapter();
 
 
@@ -404,12 +402,37 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
     private void buildAdapter()
     {
+        for ( EmployeeOffice element : listoffices)
+        {
+            Log.d(element.getOfficeID(),element.getEmployees().toString());
+            employees.put(element.getOfficeID(), Arrays.asList(element.getEmployees()));
+
+        }
+
+
+        for (EmployeeOffice element : listoffices) {
+            Log.d(element.getOfficeID(), String.valueOf(Arrays.asList(element.getEmployees())));
+            employees.put(element.getOfficeID(), Arrays.asList(element.getEmployees()));
+        }
+
+        Log.d("Map of employees: ", employees.toString());
+
+
+        // i still need to check id of user to ensure obtaining their matching
+        employeesInOneOffice = employees.get("1");
+
+        for ( Employee e : employeesInOneOffice)
+        {
+            if (e != null)
+                EmployeesList.add(e);
+        }
+
+
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
-        mAdapter = new ProfileAdapter(getActivity(), listoffices, this);
+        mAdapter = new ProfileAdapter(getActivity(), EmployeesList, this);
         recyclerView.setAdapter(mAdapter);
-
     }
 
 

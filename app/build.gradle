@@ -38,6 +38,7 @@ dependencies {
     // SelectableRoundedImageView
     compile 'com.joooonho:selectableroundedimageview:1.0.1'
     // Add Firebase to your Android app
+    //noinspection GradleCompatible
     compile 'com.google.firebase:firebase-core:15.0.0'
     //implementation 'com.firebaseui:firebase-ui-database:3.3.1'
 
@@ -49,6 +50,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
+    // auth for upload images
+
 }
 apply plugin: 'com.google.gms.google-services'
 

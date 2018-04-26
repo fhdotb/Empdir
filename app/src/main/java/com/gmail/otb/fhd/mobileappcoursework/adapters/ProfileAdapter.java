@@ -2,6 +2,8 @@ package com.gmail.otb.fhd.mobileappcoursework.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
@@ -27,6 +29,10 @@ import com.gmail.otb.fhd.mobileappcoursework.model.JsonResponse;
 import com.gmail.otb.fhd.mobileappcoursework.utills.CircleTransform;
 import com.gmail.otb.fhd.mobileappcoursework.utills.FlipAnimator;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,10 +45,7 @@ import java.util.Map;
 
 public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewHolder> {
     private Context mContext;
-    private List<EmployeeOffice> messages = new ArrayList<EmployeeOffice>() ;
-    private List<Employee> employeesInOneOffice =new ArrayList<Employee>();
-    List<Employee> EmployeesList = new ArrayList<Employee>();
-    private Map<String, List<Employee> > employees = new HashMap <String, List<Employee> >();
+    private List<Employee> EmployeesList = new ArrayList<Employee>() ;
     private MessageAdapterListener listener;
     private SparseBooleanArray selectedItems;
 
@@ -86,31 +89,13 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
     }
 
 
-    public ProfileAdapter(Context mContext, List<EmployeeOffice> re, MessageAdapterListener listener) {
+    public ProfileAdapter(Context mContext, List<Employee> re, MessageAdapterListener listener) {
         this.mContext = mContext;
         this.listener = listener;
-        this.messages = re;
+        this.EmployeesList = re;
+        setHasStableIds(true);
         selectedItems = new SparseBooleanArray();
         animationItemsIndex = new SparseBooleanArray();
-
-        for (EmployeeOffice element : messages) {
-            Log.d(element.getOfficeID(), String.valueOf(Arrays.asList(element.getEmployees())));
-            employees.put(element.getOfficeID(), Arrays.asList(element.getEmployees()));
-        }
-
-        Log.d("Map of employees: ", employees.toString());
-
-
-        // i still need to check id of user to ensure obtaining their matching
-        employeesInOneOffice = employees.get("1");
-
-        for ( Employee e : employeesInOneOffice)
-        {
-            if (e != null)
-                EmployeesList.add(e);
-        }
-        Log.d("List of employees: ", EmployeesList.toString());
-
     }
 
     @Override
@@ -133,10 +118,10 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
         holder.from.setText(message.getFirstName());
         holder.subject.setText(message.getEmail());
         holder.message.setText(message.getMobileNamber());
-        holder.timestamp.setText(message.getLastName());
+        holder.timestamp.setText(message.getRole().getJobTitle());
 
         // displaying the first letter of From in icon text
-        holder.iconText.setText(message.getRole().getJobTitle().substring(0, 1));
+        holder.iconText.setText(message.getLastName().substring(0, 1));
 
         // change the row state to activated
         holder.itemView.setActivated(selectedItems.get(position, false));
@@ -190,8 +175,9 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
     }
 
     private void applyProfilePicture(MyViewHolder holder, Employee message) {
-        if (!TextUtils.isEmpty(message.getEmployeeID())) {
-            Glide.with(mContext).load(message.getEmployeeID())
+        if(message.getPhoto() != null)
+        {
+            Glide.with(mContext).load(message.getPhoto())
                     .thumbnail(0.5f)
                     .crossFade()
                     .transform(new CircleTransform(mContext))
@@ -199,7 +185,9 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
                     .into(holder.imgProfile);
             holder.imgProfile.setColorFilter(null);
             holder.iconText.setVisibility(View.GONE);
-        } else {
+
+        }
+       else {
             holder.imgProfile.setImageResource(R.drawable.bg_circle);
             holder.imgProfile.setColorFilter(Color.GREEN);
             holder.iconText.setVisibility(View.VISIBLE);
@@ -212,6 +200,7 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
             resetIconYAxis(holder.iconBack);
             holder.iconBack.setVisibility(View.VISIBLE);
             holder.iconBack.setAlpha(1);
+
             if (currentSelectedIndex == position) {
                 FlipAnimator.flipView(mContext, holder.iconBack, holder.iconFront, true);
                 resetCurrentIndex();
@@ -244,17 +233,17 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
 
     @Override
     public long getItemId(int position) {
-        return Integer.parseInt(messages.get(position).getOfficeID());
+        return Long.parseLong(EmployeesList.get(position).getEmployeeID());
     }
 
     private void applyImportant(MyViewHolder holder, Employee message) {
-    //    if (message.isImportant()) {
+        if (message.getRole().getSupervisor().equals("1")) {
             holder.iconImp.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_star_black_24dp));
             holder.iconImp.setColorFilter(ContextCompat.getColor(mContext, R.color.icon_tint_selected));
-     //   } else {
-     //       holder.iconImp.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_star_border_black_24dp));
-     //       holder.iconImp.setColorFilter(ContextCompat.getColor(mContext, R.color.icon_tint_normal));
-     //   }
+       } else {
+            holder.iconImp.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.ic_star_border_black_24dp));
+          holder.iconImp.setColorFilter(ContextCompat.getColor(mContext, R.color.icon_tint_normal));
+       }
     }
 
     private void applyReadStatus(MyViewHolder holder, Employee message) {
@@ -310,6 +299,12 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
     public void removeData(int position) {
         EmployeesList.remove(position);
         resetCurrentIndex();
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     private void resetCurrentIndex() {
