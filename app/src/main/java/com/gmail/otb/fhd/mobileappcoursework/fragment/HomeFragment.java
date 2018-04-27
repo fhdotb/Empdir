@@ -4,6 +4,7 @@ package com.gmail.otb.fhd.mobileappcoursework.fragment;
  * Created by fahadalms3odi on 4/14/18.
  */
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -184,7 +185,7 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
                 Alerter.create(getActivity())
                         .setText("Add employee")
                         .setIcon(R.drawable.ic_note_add_black_24dp)
-                        .setIconColorFilter(0)
+                        .setIconColorFilter(Color.DKGRAY)
                         .show();
             }
         });
@@ -383,7 +384,12 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
             @Override
             public void onFailure(Call<JsonResponse> call, Throwable t) {
-                Toast.makeText(getActivity().getApplicationContext(), "Unable to fetch json: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                Alerter.create((Activity) context)
+                        .setText("No internet connection")
+                        .setIcon(R.drawable.ic_error_black_24dp)
+                        .setIconColorFilter(0)
+                        .show();
+
                 swipeRefreshLayout.setRefreshing(false);
                 if (swipeRefreshLayout.isRefreshing()) {
                     swipeRefreshLayout.setRefreshing(false);
@@ -409,11 +415,6 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
         }
 
-
-        for (EmployeeOffice element : listoffices) {
-            Log.d(element.getOfficeID(), String.valueOf(Arrays.asList(element.getEmployees())));
-            employees.put(element.getOfficeID(), Arrays.asList(element.getEmployees()));
-        }
 
         Log.d("Map of employees: ", employees.toString());
 

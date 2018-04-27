@@ -13,6 +13,7 @@ import com.gmail.otb.fhd.mobileappcoursework.activity.MainActivity;
 
 public class ActivityManager {
 
+
     public static void goLogin(Context context) {
         Intent homeIntent = new Intent(context, LoginActivity.class);
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
@@ -30,8 +31,10 @@ public class ActivityManager {
     }
 
 
-    public static void goMainScreen(Context context) {
+    public static void goMainScreen(Context context,String userEmail,String  OfficeID) {
         Intent homeIntent = new Intent(context, MainActivity.class);
+        homeIntent.putExtra("userEmail",userEmail);
+        homeIntent.putExtra("OfficeID",OfficeID);
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_NEW_TASK);
