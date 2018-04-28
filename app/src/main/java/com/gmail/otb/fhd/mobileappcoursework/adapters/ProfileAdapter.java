@@ -77,6 +77,7 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
             imgProfile = (ImageView) view.findViewById(R.id.icon_profile);
             messageContainer = (LinearLayout) view.findViewById(R.id.message_container);
             iconContainer = (RelativeLayout) view.findViewById(R.id.icon_container);
+            this.setIsRecyclable(false);
             view.setOnLongClickListener(this);
         }
 
@@ -105,6 +106,9 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
 
         return new MyViewHolder(itemView);
     }
+
+
+
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
@@ -247,17 +251,17 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
     }
 
     private void applyReadStatus(MyViewHolder holder, Employee message) {
-       // if (message.isRead()) {
+        if (!message.getRole().getSupervisor().trim().equals("1")) {
             holder.from.setTypeface(null, Typeface.NORMAL);
             holder.subject.setTypeface(null, Typeface.NORMAL);
             holder.from.setTextColor(ContextCompat.getColor(mContext, R.color.subject));
             holder.subject.setTextColor(ContextCompat.getColor(mContext, R.color.message));
-    //    } else {
-    //        holder.from.setTypeface(null, Typeface.BOLD);
-    //        holder.subject.setTypeface(null, Typeface.BOLD);
-    //        holder.from.setTextColor(ContextCompat.getColor(mContext, R.color.from));
-   //         holder.subject.setTextColor(ContextCompat.getColor(mContext, R.color.subject));
-   //     }
+        } else {
+              holder.from.setTypeface(null, Typeface.BOLD);
+              holder.subject.setTypeface(null, Typeface.BOLD);
+              holder.from.setTextColor(ContextCompat.getColor(mContext, R.color.from));
+              holder.subject.setTextColor(ContextCompat.getColor(mContext, R.color.subject));
+        }
     }
 
     @Override

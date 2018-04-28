@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     // urls to load navigation header background image
     // and profile image
     private static final String urlNavHeaderBg = "https://api.androidhive.info/images/nav-menu-header-bg.jpg";
-    private static final String urlProfileImg = "https://lh3.googleusercontent.com/eCtE_G34M9ygdkmOpYvCag1vBARCmZwnVS6rS5t4JLzJ6QgQSBquM0nuTsCpLhYbKljoyS-txg";
+    private  String urlProfileImg ;
 
     // index to identify current nav menu item
     public static int navItemIndex = 0;
@@ -77,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private  Bundle extras;
 
 
+    @SuppressLint("LongLogTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -93,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
             jobTitle = extras.getString("jobTitle");
             name = extras.getString("name");
             supervisor = extras.getString("supervisor");
+
+            Log.d("if a current user is supervisor :", supervisor);
         }
 
         mHandler = new Handler();
@@ -101,7 +104,19 @@ public class MainActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        // Navigation view header
+        if(supervisor != null) {
+
+            if (supervisor.trim().equals("0")) // case if the user is supervise
+            {
+                fab.setVisibility(View.GONE);
+            } else {
+                fab.setVisibility(View.VISIBLE);
+            }
+        }
+
+
+
+            // Navigation view header
         navHeader = navigationView.getHeaderView(0);
         txtName = (TextView) navHeader.findViewById(R.id.name);
         txtWebsite = (TextView) navHeader.findViewById(R.id.website);
@@ -128,12 +143,24 @@ public class MainActivity extends AppCompatActivity {
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
 
 
-
+        urlProfileImg = photo;
         // load nav menu header data
-       // loadNavHeader();
+         loadNavHeader();
 
         // initializing navigation menu
         setUpNavigationView();
+
+        if(supervisor.trim().equals("1")) // case if the user is supervise
+        {
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_movies).setVisible(false);
+
+        }
+        else {
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.nav_movies).setVisible(true);
+        }
+
 
         if (savedInstanceState == null) {
             navItemIndex = 0;
@@ -153,8 +180,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loadNavHeader() {
         // name, website
-        txtName.setText("Ravi Tamada");
-        txtWebsite.setText("www.androidhive.info");
+        txtName.setText(name);
+        txtWebsite.setText(jobTitle);
 
         // loading header background image
         Glide.with(this).load(urlNavHeaderBg)
@@ -233,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle();
         bundle.putString("userEmail",userEmail);
         bundle.putString("OfficeID",OfficeID);
+        bundle.putString("supervisor",supervisor);
 
         Log.d("send OfficeID to fragmment ",OfficeID);
 
