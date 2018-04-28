@@ -31,11 +31,17 @@ public class ActivityManager {
     }
 
 
-    public static void goMainScreen(Context context,String userEmail,String  OfficeID,String photo) {
+    public static void goMainScreen(Context context,String userEmail,String  OfficeID,String photo,
+    String jobTitle,String supervisor,String name)
+    {
         Intent homeIntent = new Intent(context, MainActivity.class);
         homeIntent.putExtra("userEmail",userEmail);
         homeIntent.putExtra("OfficeID",OfficeID);
         homeIntent.putExtra("photo",photo);
+        homeIntent.putExtra("jobTitle",jobTitle);
+        homeIntent.putExtra("supervisor",supervisor);
+        homeIntent.putExtra("name",name);
+
         homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_NEW_TASK);

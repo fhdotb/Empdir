@@ -12,8 +12,8 @@
         android:id="@+id/img_header_bg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/logo" />
+        android:scaleType="fitXY" />
+    <!-- android:src="@drawable/logo" -->
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -26,11 +26,12 @@
             android:id="@+id/img_profile"
             android:layout_width="@dimen/profile_width"
             android:layout_height="@dimen/profile_height"
-            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:paddingTop="20dp"
             app:srcCompat="@android:drawable/sym_def_app_icon" />
 
         <TextView
             android:id="@+id/name"
+            android:text="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"

@@ -1,11 +1,13 @@
 package com.gmail.otb.fhd.mobileappcoursework.model;
 
 
+import java.io.Serializable;
+
 /**
  * Created by fahadalms3odi on 4/22/18.
  */
 
-public class Employee {
+public class Employee implements Serializable {
 
 
     private String employeeID;

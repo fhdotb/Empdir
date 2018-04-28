@@ -67,9 +67,13 @@ public class MainActivity extends AppCompatActivity {
     // flag to load home fragment when user presses back key
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
-    private   String userEmail;
-    private   String OfficeID;
+    private  String userEmail;
+    private  String OfficeID;
     private  String photo;
+    private String jobTitle;
+    private String supervisor;
+    private String name;
+
     private  Bundle extras;
 
 
@@ -86,6 +90,9 @@ public class MainActivity extends AppCompatActivity {
             userEmail = extras.getString("userEmail");
             OfficeID = extras.getString("OfficeID");
             photo = extras.getString("photo");
+            jobTitle = extras.getString("jobTitle");
+            name = extras.getString("name");
+            supervisor = extras.getString("supervisor");
         }
 
         mHandler = new Handler();
@@ -100,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
         txtWebsite = (TextView) navHeader.findViewById(R.id.website);
         imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
         imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
+
+        txtName.setText(name);
+        txtWebsite.setText(jobTitle);
 
         if(photo != null)
         {

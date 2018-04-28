@@ -54,6 +54,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String password;
     private String  OfficeID;
     private String photo;
+    private String jobTitle;
+    private String supervisor;
+    private String name;
 
     private EmployeeOffice[] offices;
     private List<EmployeeOffice> listoffices;
@@ -82,7 +85,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             userEmail=mSharedPreferences.getString("userEmail",null);
             OfficeID=mSharedPreferences.getString("OfficeID",null);
             photo = mSharedPreferences.getString("photo",null);
-            ActivityManager.goMainScreen(context,userEmail,OfficeID,photo );
+
+            jobTitle=mSharedPreferences.getString("jobTitle",null);
+            supervisor=mSharedPreferences.getString("supervisor",null);
+            name = mSharedPreferences.getString("name",null);
+
+            ActivityManager.goMainScreen(context,userEmail,OfficeID,photo,jobTitle, supervisor, name);
 
         }
 
@@ -214,9 +222,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mEditor.putString("userEmail",userEmail );
             mEditor.putString("OfficeID",OfficeID);
             mEditor.putString("photo",employee.getPhoto());
+            mEditor.putString("jobTitle",employee.getRole().getJobTitle());
+            mEditor.putString("supervisor",employee.getRole().getSupervisor());
+            mEditor.putString("name",employee.getFirstName()+" "+employee.getLastName());
+
             mEditor.commit();
 
-            ActivityManager.goMainScreen(context,userEmail,OfficeID,employee.getPhoto());
+            ActivityManager.goMainScreen(context,
+                    userEmail,
+                    OfficeID,
+                    employee.getPhoto(),
+                    employee.getRole().getJobTitle(),
+                    employee.getRole().getSupervisor(),
+                    employee.getFirstName()+" "+employee.getLastName());
             }
             else
             {
