@@ -3,6 +3,7 @@ package com.gmail.otb.fhd.mobileappcoursework;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -52,10 +53,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String userEmail;
     private String password;
     private String  OfficeID;
+    private String photo;
 
     private EmployeeOffice[] offices;
     private List<EmployeeOffice> listoffices;
     private List<Employee> employeesInOneOffice =new ArrayList<Employee>();
+    private Employee employee;
+
+    private SharedPreferences mSharedPreferences;
+    public static final String PREFERENCE= "preference";
+    public static final String PREF_NAME = "name";
+    public static final String PREF_PASSWD = "passwd";
+    public static final String PREF_SKIP_LOGIN = "skip_login";
+
 
 
 
@@ -65,6 +75,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setContentView(R.layout.login_activity);
+
+        mSharedPreferences = getSharedPreferences(PREFERENCE, Context.MODE_PRIVATE);
+        if(mSharedPreferences.contains(PREF_SKIP_LOGIN)){
+
+            userEmail=mSharedPreferences.getString("userEmail",null);
+            OfficeID=mSharedPreferences.getString("OfficeID",null);
+            photo = mSharedPreferences.getString("photo",null);
+            ActivityManager.goMainScreen(context,userEmail,OfficeID,photo );
+
+        }
+
         initGui();
     }
 
@@ -176,6 +197,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     if (input_email.getText().toString().trim().equals(userEmail)
                             && input_password.getText().toString().trim().equals(password)) {
                         bool = true;
+                        employee = em;
                         break;
                     }
                 }
@@ -187,7 +209,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
         if(bool) {
-            ActivityManager.goMainScreen(context,userEmail,OfficeID );
+            SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+            mEditor.putString(PREF_SKIP_LOGIN,"skip");
+            mEditor.putString("userEmail",userEmail );
+            mEditor.putString("OfficeID",OfficeID);
+            mEditor.putString("photo",employee.getPhoto());
+            mEditor.commit();
+
+            ActivityManager.goMainScreen(context,userEmail,OfficeID,employee.getPhoto());
             }
             else
             {

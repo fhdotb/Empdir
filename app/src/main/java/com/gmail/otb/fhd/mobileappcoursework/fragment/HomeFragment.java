@@ -62,12 +62,11 @@ import retrofit2.Response;
 public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefreshListener , ProfileAdapter.MessageAdapterListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM1 = "userEmail";
+    private static final String ARG_PARAM2 = "OfficeID";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
 
     private MaterialSearchView searchView;
     private FloatingActionButton fab;
@@ -84,6 +83,9 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
     private List<Employee> employeesInOneOffice =new ArrayList<Employee>();
     private List<Employee> EmployeesList = new ArrayList<Employee>();
     private Map<String, List<Employee> > employees = new HashMap<String, List<Employee> >();
+
+    private   String userEmail;
+    private   String OfficeID;
 
 
 
@@ -116,8 +118,10 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            userEmail = getArguments().getString(ARG_PARAM1);
+            OfficeID = getArguments().getString(ARG_PARAM2);
+            Log.d("userEmail===",userEmail);
+            Log.d("OfficeID===",OfficeID);
         }
     }
 
@@ -420,7 +424,7 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
 
         // i still need to check id of user to ensure obtaining their matching
-        employeesInOneOffice = employees.get("1");
+        employeesInOneOffice = employees.get(OfficeID);
 
         for ( Employee e : employeesInOneOffice)
         {

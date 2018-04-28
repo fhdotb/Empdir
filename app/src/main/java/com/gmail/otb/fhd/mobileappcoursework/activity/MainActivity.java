@@ -5,12 +5,11 @@ package com.gmail.otb.fhd.mobileappcoursework.activity;
  */
 
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -18,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +30,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gmail.otb.fhd.mobileappcoursework.R;
 import com.gmail.otb.fhd.mobileappcoursework.fragment.HomeFragment;
-import com.gmail.otb.fhd.mobileappcoursework.fragment.NotificationsFragment;
 import com.gmail.otb.fhd.mobileappcoursework.fragment.PhotosFragment;
 import com.gmail.otb.fhd.mobileappcoursework.fragment.SettingsFragment;
 import com.gmail.otb.fhd.mobileappcoursework.fragment.SupervisorFragment;
@@ -59,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG_HOME = "Employees List";
     private static final String TAG_PHOTOS = "photos";
     private static final String TAG_MOVIES = "movies";
-    private static final String TAG_NOTIFICATIONS = "notifications";
     private static final String TAG_SETTINGS = "settings";
     public static String CURRENT_TAG = TAG_HOME;
 
@@ -69,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
     // flag to load home fragment when user presses back key
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
+    private   String userEmail;
+    private   String OfficeID;
+    private  String photo;
+    private  Bundle extras;
 
 
     @Override
@@ -78,6 +80,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        extras = getIntent().getExtras();
+        if (extras != null) {
+            userEmail = extras.getString("userEmail");
+            OfficeID = extras.getString("OfficeID");
+            photo = extras.getString("photo");
+        }
 
         mHandler = new Handler();
 
@@ -91,6 +100,19 @@ public class MainActivity extends AppCompatActivity {
         txtWebsite = (TextView) navHeader.findViewById(R.id.website);
         imgNavHeaderBg = (ImageView) navHeader.findViewById(R.id.img_header_bg);
         imgProfile = (ImageView) navHeader.findViewById(R.id.img_profile);
+
+        if(photo != null)
+        {
+            Glide.with(this).load(photo)
+                    .thumbnail(0.5f)
+                    .crossFade()
+                    .transform(new CircleTransform(this))
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(imgProfile);
+            imgProfile.setColorFilter(null);
+        }
+
+
 
         // load toolbar titles from string resources
         activityTitles = getResources().getStringArray(R.array.nav_item_activity_titles);
@@ -195,28 +217,35 @@ public class MainActivity extends AppCompatActivity {
         invalidateOptionsMenu();
     }
 
+    @SuppressLint("LongLogTag")
     private Fragment getHomeFragment() {
+
+        Bundle bundle = new Bundle();
+        bundle.putString("userEmail",userEmail);
+        bundle.putString("OfficeID",OfficeID);
+
+        Log.d("send OfficeID to fragmment ",OfficeID);
+
         switch (navItemIndex) {
             case 0:
                 // home
                 HomeFragment homeFragment = new HomeFragment();
+                homeFragment.setArguments(bundle);
                 return homeFragment;
             case 1:
                 // photos
                 PhotosFragment photosFragment = new PhotosFragment();
+                photosFragment.setArguments(bundle);
                 return photosFragment;
             case 2:
                 // Supervisor
                 SupervisorFragment supervisorFragment = new SupervisorFragment();
+                supervisorFragment.setArguments(bundle);
                 return supervisorFragment;
-            case 3:
-                // notifications fragment
-                NotificationsFragment notificationsFragment = new NotificationsFragment();
-                return notificationsFragment;
-
             case 4:
                 // settings fragment
                 SettingsFragment settingsFragment = new SettingsFragment();
+                settingsFragment.setArguments(bundle);
                 return settingsFragment;
             default:
                 return new HomeFragment();
@@ -253,10 +282,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.nav_movies:
                         navItemIndex = 2;
                         CURRENT_TAG = TAG_MOVIES;
-                        break;
-                    case R.id.nav_notifications:
-                        navItemIndex = 3;
-                        CURRENT_TAG = TAG_NOTIFICATIONS;
                         break;
                     case R.id.nav_settings:
                         navItemIndex = 4;
