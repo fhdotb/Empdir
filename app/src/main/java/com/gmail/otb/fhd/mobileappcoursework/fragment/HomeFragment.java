@@ -64,6 +64,8 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "userEmail";
     private static final String ARG_PARAM2 = "OfficeID";
+    private static final String ARG_PARAM3 = "supervisor";
+
 
     // TODO: Rename and change types of parameters
 
@@ -84,8 +86,10 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
     private List<Employee> EmployeesList = new ArrayList<Employee>();
     private Map<String, List<Employee> > employees = new HashMap<String, List<Employee> >();
 
-    private   String userEmail;
-    private   String OfficeID;
+    private String userEmail;
+    private String OfficeID;
+    private String supervisor;
+    private FrameLayout layout_fab;
 
 
 
@@ -120,6 +124,7 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
         if (getArguments() != null) {
             userEmail = getArguments().getString(ARG_PARAM1);
             OfficeID = getArguments().getString(ARG_PARAM2);
+            supervisor = getArguments().getString(ARG_PARAM3);
             Log.d("userEmail===",userEmail);
             Log.d("OfficeID===",OfficeID);
         }
@@ -147,7 +152,6 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
 
         FrameLayout layout = getActivity().findViewById(R.id.toolbar_container);
-
         searchView = (MaterialSearchView) layout.findViewById(R.id.search_view);
         searchView.setVoiceSearch(false);
         searchView.setCursorDrawable(R.drawable.color_cursor_white);
@@ -180,25 +184,35 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
         });
 
 
-        FrameLayout layout_fab = getActivity().findViewById(R.id.fap_container);
-        fab = (FloatingActionButton) layout_fab.findViewById(R.id.fab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Alerter.create(getActivity())
-                        .setText("Add employee")
-                        .setIcon(R.drawable.ic_note_add_black_24dp)
-                        .setIconColorFilter(Color.DKGRAY)
-                        .show();
-            }
-        });
+
+        layout_fab = getActivity().findViewById(R.id.fap_container);
+
+        if(supervisor.trim().equals("1"))
+        {
+
+            fab = (FloatingActionButton) layout_fab.findViewById(R.id.fab);
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Alerter.create(getActivity())
+                            .setText("Add employee")
+                            .setIcon(R.drawable.ic_note_add_black_24dp)
+                            .setIconColorFilter(Color.DKGRAY)
+                            .show();
+                }
+            });
+
+            layout_fab.setVisibility(View.VISIBLE);
+        }
+        else
+            layout_fab.setVisibility(View.GONE);
+
 
 
 
         int top_to_padding=500;
-
-
         recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
         swipeRefreshLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -412,6 +426,9 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
     private void buildAdapter()
     {
+        List<Employee> employeesInOneOffice =new ArrayList<Employee>();
+        List<Employee> EmployeesList = new ArrayList<Employee>();
+
         for ( EmployeeOffice element : listoffices)
         {
             Log.d(element.getOfficeID(),element.getEmployees().toString());
@@ -421,6 +438,7 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
 
         Log.d("Map of employees: ", employees.toString());
+
 
 
         // i still need to check id of user to ensure obtaining their matching
@@ -434,6 +452,7 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
 
         if (mAdapter != null) {
+            recyclerView.removeAllViewsInLayout();
             mAdapter.notifyDataSetChanged();
         }
         mAdapter = new ProfileAdapter(getActivity(), EmployeesList, this);
