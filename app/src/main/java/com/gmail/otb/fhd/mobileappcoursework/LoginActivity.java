@@ -141,6 +141,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void login() {
 //        swipeRefreshLayout.setRefreshing(true);
 
+        //Using 'Call' Interface to receive data from the server
+        // ” onResponse ” override method contains the success response
         API apiService =
                 ApiClient.getClient().create(API.class);
 
