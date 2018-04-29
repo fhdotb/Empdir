@@ -114,10 +114,8 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         Employee message = EmployeesList.get(position);
         Log.d("employees in position:", message.toString());
-
         message.setFirstName(message.getFirstName());
        // message = employeesInOneOffice.get(position);
-
         // displaying text view data
         holder.from.setText(message.getFirstName());
         holder.subject.setText(message.getEmail());
