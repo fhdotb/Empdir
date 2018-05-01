@@ -4,6 +4,7 @@ package com.gmail.otb.fhd.mobileappcoursework.fragment;
  * Created by fahadalms3odi on 4/14/18.
  */
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,10 +13,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.gmail.otb.fhd.mobileappcoursework.NetworkLayer.API;
 import com.gmail.otb.fhd.mobileappcoursework.NetworkLayer.ApiClient;
@@ -36,6 +34,7 @@ import com.gmail.otb.fhd.mobileappcoursework.adapters.ProfileAdapter;
 import com.gmail.otb.fhd.mobileappcoursework.model.Employee;
 import com.gmail.otb.fhd.mobileappcoursework.model.EmployeeOffice;
 import com.gmail.otb.fhd.mobileappcoursework.model.JsonResponse;
+import com.gmail.otb.fhd.mobileappcoursework.utills.ActivityManager;
 import com.gmail.otb.fhd.mobileappcoursework.utills.DividerItemDecoration;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.tapadoo.alerter.Alerter;
@@ -51,14 +50,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HomeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefreshListener , ProfileAdapter.MessageAdapterListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,10 +69,8 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
     private RecyclerView recyclerView;
     private ProfileAdapter mAdapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ActionMode actionMode;
-    private ActionModeCallback actionModeCallback;
 
-    private Context context = this.getActivity();
+    private Context context;
     private List<Employee> employeesInOneOffice =new ArrayList<Employee>();
     private List<Employee> EmployeesList = new ArrayList<Employee>();
     private Map<String, List<Employee> > employees = new HashMap<String, List<Employee> >();
@@ -89,6 +78,7 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
     private String userEmail;
     private String OfficeID;
     private String supervisor;
+    private String building;
     private FrameLayout layout_fab;
 
 
@@ -99,23 +89,7 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -125,6 +99,7 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
             userEmail = getArguments().getString(ARG_PARAM1);
             OfficeID = getArguments().getString(ARG_PARAM2);
             supervisor = getArguments().getString(ARG_PARAM3);
+            building = getArguments().getString("building");
             Log.d("userEmail===",userEmail);
             Log.d("OfficeID===",OfficeID);
         }
@@ -149,43 +124,7 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
     private void initGui() {
 
-
-
-        FrameLayout layout = getActivity().findViewById(R.id.toolbar_container);
-        searchView = (MaterialSearchView) layout.findViewById(R.id.search_view);
-        searchView.setVoiceSearch(false);
-        searchView.setCursorDrawable(R.drawable.color_cursor_white);
-        // searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
-        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Snackbar.make(getView().findViewById(R.id.container), "Query: " + query, Snackbar.LENGTH_LONG)
-                        .show();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //Do some magic
-                return false;
-            }
-        });
-
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-                //Do some magic
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-                //Do some magic
-            }
-        });
-
-
-
-
+        context = this.getActivity();
         layout_fab = getActivity().findViewById(R.id.fap_container);
 
         if(supervisor.trim().equals("1"))
@@ -224,10 +163,8 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new DividerItemDecoration(this.getActivity(), LinearLayoutManager.VERTICAL));
-        actionModeCallback = new ActionModeCallback();
 
         // show loader and fetch messages
-
 
 
 
@@ -242,10 +179,49 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
 
 
+        FrameLayout layout = getActivity().findViewById(R.id.toolbar_container);
+        searchView = (MaterialSearchView) layout.findViewById(R.id.search_view);
 
 
     }
 
+
+    private void search(MaterialSearchView searchView) {
+
+
+        searchView.setVoiceSearch(false);
+        searchView.setCursorDrawable(R.drawable.color_cursor_white);
+        //searchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mAdapter.getFilter().filter(query);
+                mAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(mAdapter);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                mAdapter.notifyDataSetChanged();
+                recyclerView.setAdapter(mAdapter);
+                return false;
+            }
+        });
+
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+            }
+        });
+    }
 
 
 
@@ -292,20 +268,38 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
     }
 
 
-
-
     @Override
     public void onIconClicked(int position) {
-
-    }
+        }
 
     @Override
     public void onIconImportantClicked(int position) {
 
     }
 
+    @SuppressLint("LongLogTag")
     @Override
     public void onMessageRowClicked(int position) {
+
+
+        String userEmail  = EmployeesList.get(position).getEmail();
+        String  OfficeID = this.OfficeID;
+        String photo = EmployeesList.get(position).getPhoto();
+        String jobTitle = EmployeesList.get(position).getRole().getJobTitle();
+        String supervisor = this.supervisor;
+        String name = EmployeesList.get(position).getFirstName() +" "+ EmployeesList.get(position).getLastName();
+        String manager = "F";
+        String phone = EmployeesList.get(position).getMobileNamber();
+        String building = this.building;
+
+        for (Employee e :EmployeesList )
+        {
+            if (e.getRole().getSupervisor().trim().equals("1"))
+                manager = e.getFirstName() +" "+ e.getLastName();
+        }
+
+        ActivityManager.goEmployeeProfile(
+                        context, userEmail,OfficeID, photo,jobTitle, supervisor, name,manager,phone,building,EmployeesList);
 
     }
 
@@ -335,26 +329,23 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
 
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Do something that differs the Activity's menu here
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
-        inflater.inflate(R.menu.main, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        searchView.setMenuItem(item);
-    }
-
-
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_search:
+                searchView.setMenuItem(item);
+                search(searchView);
                 break;
         }
 
         return false;
     }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main, menu);
+    }
+
 
 
 
@@ -427,7 +418,7 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
     private void buildAdapter()
     {
         List<Employee> employeesInOneOffice =new ArrayList<Employee>();
-        List<Employee> EmployeesList = new ArrayList<Employee>();
+        EmployeesList = new ArrayList<Employee>();
 
         for ( EmployeeOffice element : listoffices)
         {
@@ -449,14 +440,15 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
             if (e != null)
                 EmployeesList.add(e);
         }
-
-
         if (mAdapter != null) {
-            recyclerView.removeAllViewsInLayout();
+            Log.d("Case adapter not null::", String.valueOf(mAdapter));
             mAdapter.notifyDataSetChanged();
+            recyclerView.setAdapter(mAdapter);
         }
-        mAdapter = new ProfileAdapter(getActivity(), EmployeesList, this);
-        recyclerView.setAdapter(mAdapter);
+        else {
+            mAdapter = new ProfileAdapter(getActivity(), EmployeesList, this);
+            recyclerView.setAdapter(mAdapter);
+        }
     }
 
 
@@ -474,50 +466,6 @@ public class HomeFragment extends Fragment  implements SwipeRefreshLayout.OnRefr
             colors.recycle();
         }
         return returnColor;
-    }
-
-
-    private class ActionModeCallback implements ActionMode.Callback {
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            mode.getMenuInflater().inflate(R.menu.main, menu);
-
-            // disable swipe refresh if action mode is enabled
-            swipeRefreshLayout.setEnabled(false);
-            return true;
-        }
-
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false;
-        }
-
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-         //   switch (item.getItemId()) {
-             //   case R.id.action_delete:
-                    // delete all the selected messages
-                 //   deleteMessages();
-               //     mode.finish();
-                    return true;
-
-          //      default:
-          //          return false;
-            }
-
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mAdapter.clearSelections();
-            swipeRefreshLayout.setEnabled(true);
-            actionMode = null;
-            recyclerView.post(new Runnable() {
-                @Override
-                public void run() {
-              //      mAdapter.resetAnimationIndex();
-                //    mAdapter.notifyDataSetChanged();
-                }
-            });
-        }
     }
 
 

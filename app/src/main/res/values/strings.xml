@@ -9,7 +9,7 @@
 
     <!-- Navigation Drawer menu labels -->
     <string name="nav_home">Employees List</string>
-    <string name="nav_photos">Profile</string>
+    <string name="nav_photos">Buildings map</string>
     <string name="nav_movies">Supervisor</string>
     <!--   <string name="nav_notifications">Notifications</string> -->
       <string name="nav_settings">Settings</string>

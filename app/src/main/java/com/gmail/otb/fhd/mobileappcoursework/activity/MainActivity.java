@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     // tags used to attach the fragments
     private static final String TAG_HOME = "Employees List";
-    private static final String TAG_PHOTOS = "photos";
+    private static final String TAG_PHOTOS = "Buildings map";
     private static final String TAG_MOVIES = "movies";
     private static final String TAG_SETTINGS = "settings";
     public static String CURRENT_TAG = TAG_HOME;
@@ -67,12 +67,13 @@ public class MainActivity extends AppCompatActivity {
     // flag to load home fragment when user presses back key
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
-    private  String userEmail;
-    private  String OfficeID;
-    private  String photo;
+    private String userEmail;
+    private String OfficeID;
+    private String photo;
     private String jobTitle;
     private String supervisor;
     private String name;
+    private String building;
 
     private  Bundle extras;
 
@@ -94,6 +95,10 @@ public class MainActivity extends AppCompatActivity {
             jobTitle = extras.getString("jobTitle");
             name = extras.getString("name");
             supervisor = extras.getString("supervisor");
+            building= extras.getString("building");
+
+            Log.d("current user building :", building);
+
 
             Log.d("if a current user is supervisor :", supervisor);
         }
@@ -261,6 +266,8 @@ public class MainActivity extends AppCompatActivity {
         bundle.putString("userEmail",userEmail);
         bundle.putString("OfficeID",OfficeID);
         bundle.putString("supervisor",supervisor);
+        bundle.putString("building",building);
+
 
         Log.d("send OfficeID to fragmment ",OfficeID);
 
@@ -398,52 +405,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onBackPressed();
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-
-        // show menu only when home fragment is selected
-        if (navItemIndex == 0) {
-            getMenuInflater().inflate(R.menu.main, menu);
-
-        }
-
-        // when fragment is notifications, load the menu created for notifications
-        if (navItemIndex == 3) {
-            getMenuInflater().inflate(R.menu.notifications, menu);
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            Toast.makeText(getApplicationContext(), "Serach", Toast.LENGTH_LONG).show();
-
-        }
-
-            // user is in notifications fragment
-            // and selected 'Mark all as Read'
-            if (id == R.id.action_mark_all_read) {
-                Toast.makeText(getApplicationContext(), "All notifications marked as read!", Toast.LENGTH_LONG).show();
-            }
-
-            // user is in notifications fragment
-            // and selected 'Clear All'
-            if (id == R.id.action_clear_notifications) {
-                Toast.makeText(getApplicationContext(), "Clear all notifications!", Toast.LENGTH_LONG).show();
-            }
-
-            return super.onOptionsItemSelected(item);
-        }
-
 
     // show or hide the fab
     private void toggleFab() {

@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private String jobTitle;
     private String supervisor;
     private String name;
+    private String building;
 
     private EmployeeOffice[] offices;
     private List<EmployeeOffice> listoffices;
@@ -89,8 +90,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             jobTitle=mSharedPreferences.getString("jobTitle",null);
             supervisor=mSharedPreferences.getString("supervisor",null);
             name = mSharedPreferences.getString("name",null);
+            building = mSharedPreferences.getString("building",null);
 
-            ActivityManager.goMainScreen(context,userEmail,OfficeID,photo,jobTitle, supervisor, name);
+            ActivityManager.goMainScreen(context,userEmail,OfficeID,photo,jobTitle, supervisor, name,building);
 
         }
 
@@ -194,10 +196,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         userEmail = "";
         password = "";
         OfficeID="";
+        building="";
 
         for (EmployeeOffice e :listoffices)
         {
             OfficeID = e.getOfficeID();
+            building = e.getLocationName();
             employeesInOneOffice = Arrays.asList(e.getEmployees());
             for (Employee em :employeesInOneOffice )
             {
@@ -227,7 +231,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mEditor.putString("jobTitle",employee.getRole().getJobTitle());
             mEditor.putString("supervisor",employee.getRole().getSupervisor());
             mEditor.putString("name",employee.getFirstName()+" "+employee.getLastName());
-
+            mEditor.putString("building",building);
             mEditor.commit();
 
             ActivityManager.goMainScreen(context,
@@ -236,7 +240,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     employee.getPhoto(),
                     employee.getRole().getJobTitle(),
                     employee.getRole().getSupervisor(),
-                    employee.getFirstName()+" "+employee.getLastName());
+                    employee.getFirstName()+" "+employee.getLastName(),
+                    building);
             }
             else
             {
@@ -246,7 +251,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         .setIcon(R.drawable.ic_error_black_24dp)
                         .setIconColorFilter(0)
                         .show();
-
                 progLayout.setVisibility(View.GONE);
                 loginLayout.setVisibility(View.VISIBLE);
             }

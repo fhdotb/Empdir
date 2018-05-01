@@ -1,51 +1,40 @@
 package com.gmail.otb.fhd.mobileappcoursework.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.gmail.otb.fhd.mobileappcoursework.R;
 import com.gmail.otb.fhd.mobileappcoursework.model.Employee;
-import com.gmail.otb.fhd.mobileappcoursework.model.EmployeeOffice;
-import com.gmail.otb.fhd.mobileappcoursework.model.JsonResponse;
 import com.gmail.otb.fhd.mobileappcoursework.utills.CircleTransform;
 import com.gmail.otb.fhd.mobileappcoursework.utills.FlipAnimator;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by fahadalms3odi on 4/19/18.
  */
 
-public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewHolder> {
+public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewHolder> implements Filterable {
     private Context mContext;
     private List<Employee> EmployeesList = new ArrayList<Employee>() ;
+    private List<Employee> EmployeesList_fi = new ArrayList<Employee>() ;
+
     private MessageAdapterListener listener;
     private SparseBooleanArray selectedItems;
 
@@ -94,6 +83,7 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
         this.mContext = mContext;
         this.listener = listener;
         this.EmployeesList = re;
+        this.EmployeesList_fi = EmployeesList;
         setHasStableIds(true);
         selectedItems = new SparseBooleanArray();
         animationItemsIndex = new SparseBooleanArray();
@@ -107,6 +97,10 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
         return new MyViewHolder(itemView);
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
 
 
@@ -220,6 +214,8 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
     }
 
 
+
+
     // As the views will be reused, sometimes the icon appears as
     // flipped because older view is reused. Reset the Y-axis to 0
     private void resetIconYAxis(View view) {
@@ -264,7 +260,7 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
 
     @Override
     public int getItemCount() {
-        return EmployeesList.size();
+        return EmployeesList_fi.size();
     }
 
     public void toggleSelection(int pos) {
@@ -303,11 +299,109 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
         resetCurrentIndex();
     }
 
+    public void clearData()
+    {
+
+        EmployeesList.clear();
+    }
+
+
 
     @Override
-    public int getItemViewType(int position) {
-        return position;
+    public Filter getFilter() {
+
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+                Log.d("performFiltering",charSequence.toString());
+                String charString = charSequence.toString();
+
+                if (charString.isEmpty()) {
+                    Log.d("I'm here in if:: ", charString);
+                   EmployeesList_fi = EmployeesList;
+                } else {
+
+
+                    List<Employee>  filteredList = new  ArrayList<Employee>();
+                    List<Employee>  not_filteredList = new  ArrayList<Employee>();
+
+                    for (Employee e : EmployeesList_fi) {
+                        Log.d("chart:: ",charSequence.toString());
+                        Log.d("Employee e ::",e.toString());
+
+
+                           if( e.getFirstName().substring(0,1).equals(charString) ||
+                             e.getFirstName().toLowerCase().substring(0,1).equals(charString)){
+
+                            filteredList.add(e);
+
+                        }
+                        else
+                            not_filteredList.add(e);
+                    }
+
+                    Log.d("filteredList:: ",filteredList.toString());
+                    EmployeesList_fi = filteredList;
+                   // EmployeesList_fi.addAll(not_filteredList);
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = EmployeesList_fi;
+                notifyDataSetChanged();
+
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                EmployeesList_fi = (ArrayList<Employee>) filterResults.values;
+                // refresh the list with filtered data
+                notifyDataSetChanged();
+
+            }
+        };
     }
+
+
+//    @Override
+//    public Filter getFilter() {
+//        return new Filter() {
+//            @Override
+//            protected FilterResults performFiltering(CharSequence charSequence) {
+//                String charString = charSequence.toString();
+//                if (charString.isEmpty()) {
+//                   EmployeesList_fi = EmployeesList;
+//                } else {
+//                    List<Employee> filteredList = new ArrayList<>();
+//                    for (Employee row : EmployeesList_fi) {
+//
+//                        // name match condition. this might differ depending on your requirement
+//                        // here we are looking for name or phone number match
+//                        if (row.getFirstName().toLowerCase().contains(charString.toLowerCase()) ||
+//                                row.getLastName().contains(charSequence)) {
+//                            filteredList.add(row);
+//                        }
+//                    }
+//
+//                    EmployeesList_fi = filteredList;
+//                }
+//
+//                FilterResults filterResults = new FilterResults();
+//                filterResults.values = EmployeesList_fi;
+//                return filterResults;
+//            }
+//
+//            @Override
+//            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+//                EmployeesList_fi = (ArrayList<Employee>) filterResults.values;
+//                // refresh the list with filtered data
+//                notifyDataSetChanged();
+//            }
+//        };
+//    }
+
+
 
     private void resetCurrentIndex() {
         currentSelectedIndex = -1;
@@ -322,4 +416,7 @@ public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewH
 
         void onRowLongClicked(int position);
     }
+
+
+
 }

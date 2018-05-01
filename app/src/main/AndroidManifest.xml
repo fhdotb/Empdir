@@ -45,6 +45,11 @@
             android:theme="@style/AppTheme.NoActionBar"
             tools:ignore="WrongManifestParent"/>
 
+        <activity android:name=".activity.EmployeeProfileActivity"
+            android:label="Employee Profile"
+            tools:ignore="WrongManifestParent"/>
+
+
     </application>
 
 </manifest>

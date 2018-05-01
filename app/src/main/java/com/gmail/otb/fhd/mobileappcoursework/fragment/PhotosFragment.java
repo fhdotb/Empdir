@@ -5,12 +5,16 @@ package com.gmail.otb.fhd.mobileappcoursework.fragment;
  */
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.gmail.otb.fhd.mobileappcoursework.R;
 
@@ -32,6 +36,8 @@ public class PhotosFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private WebView wbView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -70,7 +76,38 @@ public class PhotosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_photos, container, false);
+        return inflater.inflate(R.layout.fragment_map, container, false);
+    }
+
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // if (savedInstanceState != null)
+        //   numberOfPager = savedInstanceState.getInt(KEY_PAGER_PAGE);
+
+        initGui();
+    }
+
+    private void initGui() {
+
+
+
+        wbView = getView().findViewById(R.id.webView1);
+
+        fillGui();
+
+    }
+
+    private void fillGui()
+    {
+         String url = "https://maps.southampton.ac.uk";
+        wbView.getSettings().setJavaScriptEnabled(true);
+        wbView.loadUrl(url);
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
