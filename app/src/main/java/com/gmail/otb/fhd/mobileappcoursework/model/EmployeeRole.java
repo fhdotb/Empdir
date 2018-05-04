@@ -3,48 +3,49 @@ package com.gmail.otb.fhd.mobileappcoursework.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+
 /**
  * Created by fahadalms3odi on 4/22/18.
  */
 
 public class EmployeeRole implements Parcelable {
 
-    private String Supervisor;
+    private String supervisor;
 
-    private String JobTitle;
+    private String jobTitle;
 
     public String getSupervisor ()
     {
-        return Supervisor;
+        return supervisor;
     }
 
     public void setSupervisor (String Supervisor)
     {
-        this.Supervisor = Supervisor;
+        this.supervisor = Supervisor;
     }
 
     public String getJobTitle ()
     {
-        return JobTitle;
+        return jobTitle;
     }
 
     public void setJobTitle (String JobTitle)
     {
-        this.JobTitle = JobTitle;
+        this.jobTitle = JobTitle;
     }
 
     @Override
     public String toString()
     {
-        return "ClassPojo [Supervisor = "+Supervisor+", JobTitle = "+JobTitle+"]";
+        return "ClassPojo [Supervisor = "+supervisor+", JobTitle = "+jobTitle+"]";
     }
 
 
 
     // Constructor
     public EmployeeRole(String Supervisor, String JobTitle){
-        this.Supervisor = Supervisor;
-        this.JobTitle = JobTitle;
+        this.supervisor = Supervisor;
+        this.jobTitle = JobTitle;
     }
 
 
@@ -54,8 +55,8 @@ public class EmployeeRole implements Parcelable {
 
         in.readStringArray(data);
         // the order needs to be the same as in writeToParcel() method
-        this.Supervisor = data[0];
-        this.JobTitle = data[1];
+        this.supervisor = data[0];
+        this.jobTitle = data[1];
 
     }
 
@@ -69,8 +70,8 @@ public class EmployeeRole implements Parcelable {
     public void writeToParcel(Parcel dest, int flags)
     {
         dest.writeStringArray(new String[] {
-                this.Supervisor,
-                this.JobTitle});
+                this.supervisor,
+                this.jobTitle});
     }
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public EmployeeRole createFromParcel(Parcel in) {

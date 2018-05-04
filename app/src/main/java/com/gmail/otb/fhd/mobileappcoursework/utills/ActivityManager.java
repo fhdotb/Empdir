@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 
-import com.gmail.otb.fhd.mobileappcoursework.LoginActivity;
+import com.gmail.otb.fhd.mobileappcoursework.activity.GoogleMapActivity;
+import com.gmail.otb.fhd.mobileappcoursework.activity.LoginActivity;
 import com.gmail.otb.fhd.mobileappcoursework.RegistrationActivity;
 import com.gmail.otb.fhd.mobileappcoursework.activity.EmployeeProfileActivity;
 import com.gmail.otb.fhd.mobileappcoursework.activity.MainActivity;
+import com.gmail.otb.fhd.mobileappcoursework.activity.VerificationActivity;
 import com.gmail.otb.fhd.mobileappcoursework.model.Employee;
 
 import java.util.ArrayList;
@@ -79,6 +81,52 @@ public class ActivityManager {
         context.startActivity(homeIntent);
 
 
+    }
+
+
+
+    public static void goGoogleMap(Context context,String userEmail,String  OfficeID,String photo,
+                                         String jobTitle,String supervisor,String name,String manager,String phone , String building)
+    {
+
+        Intent homeIntent = new Intent(context, GoogleMapActivity.class);
+        homeIntent.putExtra("userEmail",userEmail);
+        homeIntent.putExtra("OfficeID",OfficeID);
+        homeIntent.putExtra("photo",photo);
+        homeIntent.putExtra("jobTitle",jobTitle);
+        homeIntent.putExtra("supervisor",supervisor);
+        homeIntent.putExtra("name",name);
+        homeIntent.putExtra("manager",manager);
+        homeIntent.putExtra("phone",phone);
+        homeIntent.putExtra("building",building);
+
+
+//        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
+//                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+//                Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(homeIntent);
+
+
+    }
+
+
+
+    public static void goVerificationPage(Context context,String userEmail,String  OfficeID,String photo,
+                                    String jobTitle,String supervisor,String name , String building)
+    {
+        Intent homeIntent = new Intent(context, VerificationActivity.class);
+        homeIntent.putExtra("userEmail",userEmail);
+        homeIntent.putExtra("OfficeID",OfficeID);
+        homeIntent.putExtra("photo",photo);
+        homeIntent.putExtra("jobTitle",jobTitle);
+        homeIntent.putExtra("supervisor",supervisor);
+        homeIntent.putExtra("name",name);
+        homeIntent.putExtra("building",building);
+
+        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(homeIntent);
     }
 
 

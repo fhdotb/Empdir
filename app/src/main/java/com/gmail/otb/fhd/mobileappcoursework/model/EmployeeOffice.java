@@ -16,7 +16,7 @@ public class EmployeeOffice {
 
     private String DepartmentName;
 
-    private Employee[] employees;
+    private Employees employees;
 
     public String getOfficePhone ()
     {
@@ -58,13 +58,11 @@ public class EmployeeOffice {
         this.DepartmentName = DepartmentName;
     }
 
-    public Employee[] getEmployees ()
-    {
+    public Employees getEmployees() {
         return employees;
     }
 
-    public void setEmployees (Employee[] employees)
-    {
+    public void setEmployees(Employees employees) {
         this.employees = employees;
     }
 

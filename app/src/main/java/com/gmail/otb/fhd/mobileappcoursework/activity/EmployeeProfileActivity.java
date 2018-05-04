@@ -2,7 +2,9 @@ package com.gmail.otb.fhd.mobileappcoursework.activity;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +24,7 @@ import com.gmail.otb.fhd.mobileappcoursework.R;
 import com.gmail.otb.fhd.mobileappcoursework.model.Employee;
 import com.gmail.otb.fhd.mobileappcoursework.utills.ActivityManager;
 import com.gmail.otb.fhd.mobileappcoursework.utills.CircleTransform;
+import com.tapadoo.alerter.Alerter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +105,7 @@ public class EmployeeProfileActivity extends AppCompatActivity implements View.O
         employee_list = (ListView) findViewById(R.id.employee_list);
         layout_manager = (LinearLayout)findViewById(R.id.layout_manager);
         layout_manager.setOnClickListener(this);
+        employee_location.setOnClickListener(this);
         fillGui();
 
     }
@@ -202,6 +206,17 @@ public class EmployeeProfileActivity extends AppCompatActivity implements View.O
         switch (v.getId())
         {
             case R.id.layout_manager:
+                break;
+            case R.id.location_employee:
+                Alerter.create((Activity) context)
+                        .setText("Google api")
+                        .setIcon(R.drawable.ic_error_black_24dp)
+                        .setIconColorFilter(Color.DKGRAY)
+                        .show();
+
+
+                ActivityManager.goGoogleMap(
+                        context, userEmail,OfficeID, photo,jobTitle, supervisor, name,manager,phone,building);
                 break;
         }
 

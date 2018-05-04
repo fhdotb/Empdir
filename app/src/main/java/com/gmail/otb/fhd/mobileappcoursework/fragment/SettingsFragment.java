@@ -4,8 +4,6 @@ package com.gmail.otb.fhd.mobileappcoursework.fragment;
  * Created by fahadalms3odi on 4/14/18.
  */
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.gmail.otb.fhd.mobileappcoursework.R;
-import com.gmail.otb.fhd.mobileappcoursework.utills.ActivityManager;
 import com.tapadoo.alerter.Alerter;
 
 
@@ -34,13 +31,6 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     public View logout;
     public View update;
-
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -68,10 +58,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
 
 
     }
@@ -109,8 +99,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.layout_logout:
                 Alerter.create(getActivity())
                         .setText("Logout")
@@ -118,59 +107,24 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
                         .setIconColorFilter(0)
                         .show();
 
-                break;
-            case R.id.layout_update:
-                Alerter.create(getActivity())
-                        .setText("update")
-                        .setIcon(R.drawable.ic_lock_outline_black_24dp)
-                        .setIconColorFilter(0)
-                        .show();
-                break;
+//                PreferenceManager.getDefaultSharedPreferences().
+//                        edit().clear().apply();
+
+                    break;
+                    case R.id.layout_update:
+                        Alerter.create(getActivity())
+                                .setText("update")
+                                .setIcon(R.drawable.ic_lock_outline_black_24dp)
+                                .setIconColorFilter(0)
+                                .show();
+                        break;
+
+                }
+
 
         }
 
 
-    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }
 

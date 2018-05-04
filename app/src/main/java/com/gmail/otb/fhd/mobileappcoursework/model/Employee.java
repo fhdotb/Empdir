@@ -4,6 +4,8 @@ package com.gmail.otb.fhd.mobileappcoursework.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+
+
 /**
  * Created by fahadalms3odi on 4/22/18.
  */
@@ -13,19 +15,19 @@ public class Employee implements Parcelable {
 
     private String employeeID;
 
-    private String Email;
+    private String email;
 
-    private String Password;
+    private String password;
 
-    private String MobileNamber;
+    private String mobileNamber;
 
-    private EmployeeRole Role;
+    private EmployeeRole role;
 
-    private String FirstName;
+    private String firstName;
 
-    private String LastName;
+    private String lastName;
 
-    private String Photo;
+    private String photo;
 
     public String getEmployeeID ()
     {
@@ -39,78 +41,78 @@ public class Employee implements Parcelable {
 
     public String getEmail ()
     {
-        return Email;
+        return email;
     }
 
     public void setEmail (String Email)
     {
-        this.Email = Email;
+        this.email = Email;
     }
 
     public String getPassword ()
     {
-        return Password;
+        return password;
     }
 
     public void setPassword (String Password)
     {
-        this.Password = Password;
+        this.password = Password;
     }
 
     public String getMobileNamber ()
     {
-        return MobileNamber;
+        return mobileNamber;
     }
 
     public void setMobileNamber (String MobileNamber)
     {
-        this.MobileNamber = MobileNamber;
+        this.mobileNamber = MobileNamber;
     }
 
     public EmployeeRole getRole ()
     {
-        return Role;
+        return role;
     }
 
     public void setRole (EmployeeRole Role)
     {
-        this.Role = Role;
+        this.role = Role;
     }
 
     public String getFirstName ()
     {
-        return FirstName;
+        return firstName;
     }
 
     public void setFirstName (String FirstName)
     {
-        this.FirstName = FirstName;
+        this.firstName = FirstName;
     }
 
     public String getLastName ()
     {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName (String LastName)
     {
-        this.LastName = LastName;
+        this.lastName = LastName;
     }
 
     public String getPhoto ()
     {
-        return Photo;
+        return photo;
     }
 
     public void setPhoto (String Photo)
     {
-        this.Photo = Photo;
+        this.photo = Photo;
     }
 
     @Override
     public String toString()
     {
-        return "ClassPojo [employeeID = "+employeeID+", Email = "+Email+", Password = "+Password+", MobileNamber = "+MobileNamber+", Role = "+Role+", FirstName = "+FirstName+", LastName = "+LastName+", Photo = "+Photo+"]";
+        return "ClassPojo [employeeID = "+employeeID+", Email = "+email+", Password = "+password+", MobileNamber = "+mobileNamber+", Role = "+role+", FirstName = "+firstName+", LastName = "+lastName+", Photo = "+photo+"]";
     }
 
     @Override
@@ -121,13 +123,13 @@ public class Employee implements Parcelable {
     @Override
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(employeeID);
-        out.writeString(Email);
-        out.writeString(Password);
-        out.writeString(MobileNamber);
-        out.writeString(FirstName);
-        out.writeString(LastName);
+        out.writeString(email);
+        out.writeString(password);
+        out.writeString(mobileNamber);
+        out.writeString(firstName);
+        out.writeString(lastName);
        // out.writeParcelable(Role,flags);
-        out.writeString(Photo);
+        out.writeString(photo);
 
     }
 
@@ -144,13 +146,19 @@ public class Employee implements Parcelable {
 
     private Employee(Parcel in) {
         employeeID = in.readString();
-        Email = in.readString();
-        Password = in.readString();
-        MobileNamber = in.readString();
-        FirstName = in.readString();
-        LastName = in.readString();
-        Photo = in.readString();
+        email = in.readString();
+        password = in.readString();
+        mobileNamber = in.readString();
+        firstName = in.readString();
+        lastName = in.readString();
+        photo = in.readString();
        // Role = (EmployeeRole)in.readParcelable(getClass().getClassLoader());
+
+    }
+
+
+    public Employee()
+    {
 
     }
 
