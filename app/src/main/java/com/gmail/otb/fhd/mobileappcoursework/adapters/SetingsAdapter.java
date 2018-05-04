@@ -12,9 +12,6 @@ import android.widget.Toast;
 import com.gmail.otb.fhd.mobileappcoursework.R;
 import com.gmail.otb.fhd.mobileappcoursework.fragment.SettingsFragment;
 
-/**
- * Created by fahadalms3odi on 4/16/18.
- */
 
 public class SetingsAdapter extends BaseAdapter {
 

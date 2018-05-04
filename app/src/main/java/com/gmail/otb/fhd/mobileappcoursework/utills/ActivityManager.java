@@ -15,9 +15,7 @@ import com.gmail.otb.fhd.mobileappcoursework.model.Employee;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Fahad on 4/10/18.
- */
+
 
 public class ActivityManager {
 

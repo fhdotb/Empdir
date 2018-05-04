@@ -8,9 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.gmail.otb.fhd.mobileappcoursework.R;
 import com.gmail.otb.fhd.mobileappcoursework.utills.ActivityManager;
 
-/**
- * Created by fahadalms3odi on 4/14/18.
- */
+
 
 public class SplashActivity extends AppCompatActivity {
     /** Duration of wait **/

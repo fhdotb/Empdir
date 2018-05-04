@@ -1,8 +1,6 @@
 package com.gmail.otb.fhd.mobileappcoursework.utills;
 
-/**
- * Created by fahadalms3odi on 4/14/18.
- */
+
 
 import android.content.Context;
 import android.graphics.Bitmap;

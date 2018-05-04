@@ -10,9 +10,7 @@ import android.widget.Toolbar;
 
 import com.gmail.otb.fhd.mobileappcoursework.utills.ActivityManager;
 
-/**
- * Created by fahadalms3odi on 4/13/18.
- */
+
 
 public class RegistrationActivity extends AppCompatActivity implements View.OnClickListener {
 

@@ -4,9 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
-/**
- * Created by fahadalms3odi on 4/22/18.
- */
+
 
 public class EmployeeRole implements Parcelable {
 

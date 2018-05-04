@@ -26,9 +26,7 @@ import com.gmail.otb.fhd.mobileappcoursework.utills.FlipAnimator;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by fahadalms3odi on 4/19/18.
- */
+
 
 public class ProfileAdapter  extends RecyclerView.Adapter<ProfileAdapter.MyViewHolder> implements Filterable {
     private Context mContext;

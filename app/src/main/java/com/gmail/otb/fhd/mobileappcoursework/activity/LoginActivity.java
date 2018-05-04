@@ -36,9 +36,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-/**
- * Created by fahadalms3odi on 4/10/18.
- */
+
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 

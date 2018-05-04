@@ -7,9 +7,7 @@ import android.view.View;
 
 import com.gmail.otb.fhd.mobileappcoursework.R;
 
-/**
- * Created by fahadalms3odi on 4/19/18.
- */
+
 
 public class FlipAnimator {
     private static String TAG = FlipAnimator.class.getSimpleName();

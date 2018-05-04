@@ -11,9 +11,7 @@ import android.view.ViewGroup;
 import com.gmail.otb.fhd.mobileappcoursework.R;
 
 
-/**
- * Created by fahadalms3odi on 4/14/18.
- */
+
 
 public class SupervisorFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match

@@ -1,8 +1,5 @@
 package com.gmail.otb.fhd.mobileappcoursework.fragment;
 
-/**
- * Created by fahadalms3odi on 4/14/18.
- */
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
